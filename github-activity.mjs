@@ -1,4 +1,5 @@
-const axios = require('axios');
+import chalk from 'chalk';
+import axios from 'axios';
 
 // Get the GitHub username from the command line arguments
 const username = process.argv[2];
@@ -24,30 +25,30 @@ async function getUserActivity(username) {
             events.forEach((event) => {
                 switch (event.type) {
                     case 'PushEvent':
-                        console.log(`Pushed ${event.payload.commits.length} commits to ${event.repo.name}`);
+                        console.log((chalk.green(`Pushed ${event.payload.commits.length} commits to ${event.repo.name}`)));
                         break;
                     case 'IssuesEvent':
-                        console.log(`Opened a new issue in ${event.repo.name}`);
+                        console.log(chalk.blue(`Opened a new issue in ${event.repo.name}`));
                         break;
                     case 'WatchEvent':
-                        console.log(`Starred the repo ${event.repo.name}`);
+                        console.log(chalk.yellow(`Starred the repo ${event.repo.name}`));
                         break;
                     case 'CreateEvent':
-                        console.log(`Created a new repository ${event.repo.name}`);
+                        console.log(chalk.cyan(`Created a new repository ${event.repo.name}`));
                         break;
                     case 'PullRequestEvent':
-                        console.log(`Opened a new pull request in ${event.repo.name}`);
+                        console.log(chalk.magenta(`Opened a new pull request in ${event.repo.name}`));
                         break;
                     default:
-                        console.log(`Some other event: ${event.type}`);
+                        console.log(chalk.black(`Some other event: ${event.type}`));
                         break;
                 }
             });
         }
     } catch (error) {
-        console.error("Error fetching data from GitHub API", error.message);
+        console.error(chalk.red("Error fetching data from GitHub API", error.message));
     }
 }
 
-// Testing the function
+
 getUserActivity(username);
